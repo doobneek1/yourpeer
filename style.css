@@ -60,7 +60,12 @@ button {
   font-family: Inter, Helvetica Neue, Helvetica, sans-serif;
   font-size: 14px;
   z-index: 1000;
+  
+  /* NEW 👇 */
+  max-height: calc(100vh - 150px); /* leave some space top and bottom */
+  overflow-y: auto; /* enable vertical scroll */
 }
+
 
 .instructions-banner h2 {
   font-size: 18px;
