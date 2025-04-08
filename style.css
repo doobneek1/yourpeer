@@ -16,7 +16,7 @@ body {
 }
 
 textarea {
-  width: 100%;
+  width: 70%; /* ⬅️ Narrower width */
   height: 200px;
   padding: 10px;
   font-size: 14px;
@@ -26,6 +26,7 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
 
 .buttons {
   margin-bottom: 20px;
