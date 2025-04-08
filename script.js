@@ -88,13 +88,26 @@ function processText(input) {
   let lines = input.split('\n');
   let output = [];
 
+  let previousEmpty = false;
+
   lines.forEach((line, index) => {
     line = line.trim();
-    if (!line) return;
+
+    if (!line) {
+      // If line is completely empty, mark previousEmpty and skip
+      previousEmpty = true;
+      return;
+    }
 
     const isFirstLine = index === 0;
     const endsWithColon = line.endsWith(':');
-    const alreadyBullet = line.startsWith('•') || line.startsWith('<br>&emsp;—');
+    const alreadyBullet = line.startsWith('•') || line.startsWith('<br>') || line.startsWith('<br>&emsp;—');
+
+    // ➔ If there was an empty line before, add a <br> before this line
+    if (previousEmpty) {
+      line = '<br>' + line;
+      previousEmpty = false;
+    }
 
     if (!alreadyBullet && !(isFirstLine && endsWithColon)) {
       if (line.startsWith('-')) {
@@ -137,3 +150,9 @@ function refresh() {
   document.getElementById('inputText').value = "";
   document.getElementById('output').innerHTML = "";
 }
+document.getElementById("inputText").addEventListener("keydown", function(event) {
+  if (event.ctrlKey && event.key === "Enter") {
+    event.preventDefault();
+    convert();
+  }
+});
