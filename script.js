@@ -517,7 +517,7 @@ copyButton.style.display = 'none';
 
 function addServicesInclude() {
   if (!textArea.value.startsWith('Services include:')) {
-    textArea.value = `Services include:\n\n` + textArea.value.trim();
+    textArea.value = `Services include:\n` + textArea.value.trim();
   }
   inputHistory.push(textArea.value);
   updateCancelButton();
@@ -525,7 +525,7 @@ function addServicesInclude() {
 }
 
 function appendMetrocards() {
-  const statement = "\n\nIf you are a Medicaid or Medicare recipient, see if you qualify for a Round-Trip MetroCard upon your visit.";
+  const statement = "\n• If you are a Medicaid or Medicare recipient, see if you qualify for a Round-Trip MetroCard upon your visit.";
   textArea.value = textArea.value.trim() + statement;
   inputHistory.push(textArea.value);
   updateCancelButton();
@@ -533,7 +533,7 @@ function appendMetrocards() {
 }
 
 function appendRisks() {
-  const statement = '\n\nIf you are a non-citizen with a criminal record, please <a href="https://docs.google.com/document/d/e/2PACX-1vQ-cQznO83jSMzdwQoOOZMO22gOesH8YgiSo3GTzuRpHjMczqzzFz8JR23pM6_ZMG8khiGazWIcF-jA/pub" target="_blank" rel="noopener noreferrer">see if you might be at risk of deportation</a>.';
+  const statement = '\n• If you are a non-citizen with a criminal record, please <a href="https://docs.google.com/document/d/e/2PACX-1vQ-cQznO83jSMzdwQoOOZMO22gOesH8YgiSo3GTzuRpHjMczqzzFz8JR23pM6_ZMG8khiGazWIcF-jA/pub" target="_blank" rel="noopener noreferrer">see if you might be at risk of deportation</a>.';
   textArea.value = textArea.value.trim() + statement;
   inputHistory.push(textArea.value);
   updateCancelButton();
@@ -541,7 +541,7 @@ function appendRisks() {
 }
 
 function appendInelig() {
-  const statement = '\n\nIf you are a non-citizen, please <a href="https://docs.google.com/document/d/e/2PACX-1vSRz4FT0ndCbqt63vO1Dq5Isj7FS4TZjw5NMc0gn8HCSg2gLx-MXD56X8Z56IDD5qbLX2_xzpwCqHaK/pub" target="_blank" rel="noopener noreferrer">see if you might qualify for this service</a>.';
+  const statement = '\n• If you are a non-citizen, please <a href="https://docs.google.com/document/d/e/2PACX-1vSRz4FT0ndCbqt63vO1Dq5Isj7FS4TZjw5NMc0gn8HCSg2gLx-MXD56X8Z56IDD5qbLX2_xzpwCqHaK/pub" target="_blank" rel="noopener noreferrer">see if you might qualify for this service</a>.';
   textArea.value = textArea.value.trim() + statement;
   inputHistory.push(textArea.value);
   updateCancelButton();
@@ -549,7 +549,7 @@ function appendInelig() {
 }
 
 function appendSurviv() {
-  const statement = '\n\nIf you are a non-citizen and survived a crime, please <a href="https://docs.google.com/document/d/e/2PACX-1vSRz4FT0ndCbqt63vO1Dq5Isj7FS4TZjw5NMc0gn8HCSg2gLx-MXD56X8Z56IDD5qbLX2_xzpwCqHaK/pub" target="_blank" rel="noopener noreferrer">see if you might qualify for some immigration benefits</a>.';
+  const statement = '\n• If you are a non-citizen and survived a crime, please <a href="https://docs.google.com/document/d/e/2PACX-1vSRz4FT0ndCbqt63vO1Dq5Isj7FS4TZjw5NMc0gn8HCSg2gLx-MXD56X8Z56IDD5qbLX2_xzpwCqHaK/pub" target="_blank" rel="noopener noreferrer">see if you might qualify for some immigration benefits</a>.';
   textArea.value = textArea.value.trim() + statement;
   inputHistory.push(textArea.value);
   updateCancelButton();
