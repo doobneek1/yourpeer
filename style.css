@@ -30,7 +30,10 @@ textarea {
 
 .buttons {
   margin-bottom: 20px;
+  position: relative; /* 🆕 Needed for z-index to work */
+  z-index: 2000; /* 🆙 Higher than the banner (which was 1000) */
 }
+
 
 button {
   margin-right: 10px;
