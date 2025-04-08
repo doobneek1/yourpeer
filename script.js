@@ -203,39 +203,74 @@ function formatAge(text) {
   });
 }
 
-// 🛡️ Protect already hyperlinked text and hyperlink only safe parts
-function protectAndHyperlink(text) {
+function safeHyperlink(text) {
   const parts = text.split(/(<a .*?>.*?<\/a>)/g);
-  const output = [];
+  let output = [];
 
   for (let part of parts) {
     if (part.startsWith('<a ')) {
-      output.push(part); // already hyperlinked
+      output.push(part); // leave already linked stuff
     } else {
-      // Raw domains (without http)
-      part = part.replace(/\b(?!https?:\/\/)([a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[^\s<>]*)?)/g, (domain) => {
-        if (domain.includes('yourpeer.nyc')) {
-          return `<a href="https://${domain}">${domain}</a>`;
+      // Raw phone with custom label
+      part = part.replace(/(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})\|\(([^)]+)\)/g, (m, num, label) => {
+        let clean = num.replace(/\D/g, '');
+        return `<a href="tel:${clean}">${label}</a>`;
+      });
+
+      // Raw email with custom label
+      part = part.replace(/([\w\.-]+@[\w\.-]+\.\w+)\|\(([^)]+)\)/g, (m, email, label) => {
+        return `<a href="mailto:${email}">${label}</a>`;
+      });
+
+      // Raw URL with custom label
+      part = part.replace(/(https?:\/\/[^\s<>\|]+)\|\(([^)]+)\)/g, (m, url, label) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+      });
+
+      // Raw email
+      part = part.replace(/(?<!href="mailto:)([\w\.-]+@[\w\.-]+\.\w+)/g, (m, email) => {
+        return `<a href="mailto:${email}">${email}</a>`;
+      });
+
+      // Raw phone
+      part = part.replace(/(?<!href="tel:)(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})(?:[,xX]\s*(\d+))?/g, (m, num, ext) => {
+        let clean = num.replace(/\D/g, '');
+        let formatted = `(${clean.slice(0, 3)}) ${clean.slice(3, 6)}-${clean.slice(6)}`;
+        if (ext) {
+          return `<a href="tel:${clean},${ext}">${formatted} x${ext}</a>`;
         } else {
-          return `<a href="https://${domain}" target="_blank" rel="noopener noreferrer">${domain}</a>`;
+          return `<a href="tel:${clean}">${formatted}</a>`;
         }
       });
 
-      // Raw URLs with http/https
-      part = part.replace(/(?<!href=")(https?:\/\/[^\s<>\|)]+)/g, (url) => {
+      // Raw full http/https URL
+      part = part.replace(/(?<!href=")(https?:\/\/[^\s<>\|)]+)/g, (m, url) => {
         let display = url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
-        if (url.includes('yourpeer.nyc')) {
-          return `<a href="${url}">${display}</a>`;
-        } else {
-          return `<a href="${url}" target="_blank" rel="noopener noreferrer">${display}</a>`;
-        }
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${display}</a>`;
       });
 
       output.push(part);
     }
   }
 
-  return output.join('');
+  let finalText = output.join('');
+
+  // SECOND pass: now catch any stray domains like gh.com
+  finalText = finalText.split(/(<a .*?>.*?<\/a>)/g).map(piece => {
+    if (piece.startsWith('<a ')) return piece;
+    return piece.replace(/\b(?!https?:\/\/)([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[^\s<>]*)?)/g, (m, domain) => {
+      if (domain.includes('yourpeer.nyc')) {
+        return `<a href="https://${domain}">${domain}</a>`;
+      } else {
+        return `<a href="https://${domain}" target="_blank" rel="noopener noreferrer">${domain}</a>`;
+      }
+    });
+  }).join('');
+
+  // Make sure every bullet starts on a new line
+  finalText = finalText.replace(/(?<!^)(?<!<br>)•/g, '<br>•');
+
+  return finalText;
 }
 
 function processText(input) {
@@ -244,7 +279,7 @@ function processText(input) {
 
   lines.forEach((line, index) => {
     line = line.trim();
-    if (!line) return; // ignore empty lines
+    if (!line) return;
 
     const isFirstLine = index === 0;
     const endsWithColon = line.endsWith(':');
@@ -261,41 +296,34 @@ function processText(input) {
 
     line = formatTimeRange(line);
     line = formatAge(line);
-    line = protectAndHyperlink(line);
+    line = safeHyperlink(line);
 
     output.push(line);
   });
 
-  return output.join('\n');
+  return output.join('\n').replace(/^\s*<br>/, ''); // remove any leading <br>
 }
 
 function convert() {
   const textArea = document.getElementById("inputText");
-  let rawText = textArea.value.trim();
+  const rawText = textArea.value.trim();
+
   if (!rawText) return;
 
-  // 🛡️ Protect existing links first
-  let protectedText = protectAndHyperlink(rawText);
+  const formatted = processText(rawText);
 
-  // 🛠️ Then standardize
-  let finalText = processText(protectedText);
-
-  // 🧹 Remove extra empty lines at the start
-  finalText = finalText.replace(/^\s*<br>\s*/g, '');
-
-  // Update input and output
-  textArea.value = finalText;
-  document.getElementById("output").innerHTML = finalText.replace(/•/g, '<br>•');
+  textArea.value = formatted;
+  document.getElementById("output").innerHTML = formatted.replace(/•/g, '<br>•');
 }
+
+// Allow CTRL+Enter to trigger convert
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key === 'Enter') {
+    convert();
+  }
+});
 
 function refresh() {
   document.getElementById('inputText').value = "";
   document.getElementById('output').innerHTML = "";
 }
-
-// ➡️ Allow Ctrl + Enter to trigger Convert
-document.addEventListener('keydown', function (e) {
-  if (e.ctrlKey && e.key === 'Enter') {
-    convert();
-  }
-});
