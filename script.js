@@ -35,19 +35,55 @@ function safeHyperlink(text) {
 
   for (let part of parts) {
     if (part.startsWith('<a ')) {
-      output.push(part);
+      output.push(part);  // already hyperlinked part
     } else {
-      // your current hyperlinking rules: phone, email, custom labels, etc.
-      // (your code remains here)
+      // Custom phone with display
+      part = part.replace(/(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})\|\(([^)]+)\)/g, (m, num, label) => {
+        let clean = num.replace(/\D/g, '');
+        return `<a href="tel:${clean}">${label}</a>`;
+      });
+
+      // Custom email with display
+      part = part.replace(/([\w\.-]+@[\w\.-]+\.\w+)\|\(([^)]+)\)/g, (m, email, label) => {
+        return `<a href="mailto:${email}">${label}</a>`;
+      });
+
+      // Custom URL with display
+      part = part.replace(/(https?:\/\/[^\s<>\|]+)\|\(([^)]+)\)/g, (m, url, label) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+      });
+
+      // Raw email
+      part = part.replace(/(?<!href="mailto:)([\w\.-]+@[\w\.-]+\.\w+)/g, (m, email) => {
+        return `<a href="mailto:${email}">${email}</a>`;
+      });
+
+      // Raw phone
+      part = part.replace(/(?<!href="tel:)(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})(?:[,xX]\s*(\d+))?/g, (m, num, ext) => {
+        let clean = num.replace(/\D/g, '');
+        let formatted = `(${clean.slice(0, 3)}) ${clean.slice(3, 6)}-${clean.slice(6)}`;
+        if (ext) {
+          return `<a href="tel:${clean},${ext}">${formatted} x${ext}</a>`;
+        } else {
+          return `<a href="tel:${clean}">${formatted}</a>`;
+        }
+      });
+
+      // Raw full URL (http/https)
+      part = part.replace(/(?<!href=")(https?:\/\/[^\s<>\|)]+)/g, (m, url) => {
+        let display = url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${display}</a>`;
+      });
+
       output.push(part);
     }
   }
 
   let finalText = output.join('');
 
-  // 🧠 Final pass to hyperlink missed domains
+  // ➡️ Final Smart Hyperlinking: domains without http/https
   finalText = finalText.replace(
-    /(?<!href="[^"]*")\b([\w.-]+\.[a-z]{2,}(\/[^\s<>]*)?)/gi,
+    /(?<!href="[^"]*")(?<!<a[^>]*>)([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[^\s<>]*)?)/g,
     (match, url) => {
       if (url.includes('yourpeer.nyc')) {
         return `<a href="https://${url}" rel="noopener noreferrer">${url}</a>`;
@@ -56,11 +92,12 @@ function safeHyperlink(text) {
     }
   );
 
-  // 📌 Make sure every bullet starts on a new line (your existing code)
+  // 📌 Add <br> visually before bullets
   finalText = finalText.replace(/(?<!^)(?<!<br>)•/g, '<br>•');
 
   return finalText;
 }
+
 
 function processText(input) {
   let lines = input.split('\n');
