@@ -13,26 +13,29 @@
     <img src="logo.png" alt="Logo" class="logo">
   </div>
 
-  <!-- 🛠️ Instructions Banner -->
-  <div class="instructions-banner">
-    <h2>Instructions</h2>
-    <ul>
-      <li>Press <strong>Ctrl + Enter</strong> to Convert</li>
-      <li>Press <strong>Ctrl + R</strong> to Clear</li>
-      <li>Start lines with <code>-</code> for em-dash bullets</li>
-      <li>Use <code>|(label)</code> to customize link text</li>
-      <li>Use double line breaks to insert <code>&lt;br&gt;</code></li>
-      <li>Links with a <code>.</code> will automatically hyperlink</li>
-      <li><strong>yourpeer.nyc</strong> links open in the same tab</li>
-    </ul>
-  </div>
+  <!-- 🛠️ Main Layout: Textarea + Instructions Side by Side -->
+  <div class="main-container">
+    <div class="left-side">
+      <textarea id="inputText" placeholder="Paste or type your text..."></textarea>
 
-  <!-- 🛠️ Main Text Area and Buttons -->
-  <textarea id="inputText" placeholder="Paste or type your text..."></textarea>
+      <div class="buttons">
+        <button onclick="convert()">Convert (Ctrl+Enter)</button>
+        <button onclick="refresh()">Delete (Ctrl+R)</button>
+      </div>
+    </div>
 
-  <div class="buttons">
-    <button onclick="convert()">Convert (Ctrl+Enter)</button>
-    <button onclick="refresh()">Delete (Ctrl+R)</button>
+    <div class="instructions-banner">
+      <h2>Instructions</h2>
+      <ul>
+        <li>Press <strong>Ctrl + Enter</strong> to Convert</li>
+        <li>Press <strong>Ctrl + R</strong> to Clear</li>
+        <li>Start lines with <code>-</code> for em-dash bullets</li>
+        <li>Use <code>|(label)</code> to customize link text</li>
+        <li>Use double line breaks to insert <code>&lt;br&gt;</code></li>
+        <li>Links with a <code>.</code> will automatically hyperlink</li>
+        <li><strong>yourpeer.nyc</strong> links open in the same tab</li>
+      </ul>
+    </div>
   </div>
 
   <h2>Final Output (Hyperlinked)</h2>
