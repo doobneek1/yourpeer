@@ -1,3 +1,5 @@
+let inputHistory = []; // 🆕 store previous versions
+
 function formatTimeRange(text) {
   return text.replace(/(\d{1,4}[ap])-(\d{1,4}[ap])/gi, (_, start, end) => {
     const parseTime = (t) => {
@@ -52,7 +54,6 @@ function formatAge(text) {
 function copyTextArea() {
   const textArea = document.getElementById('inputText');
   const copyButton = document.getElementById('copyButton');
-  let inputHistory = []; // 🆕 store previous versions
 
   // Select the text
   textArea.select();
