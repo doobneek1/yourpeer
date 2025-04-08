@@ -220,7 +220,20 @@ document.getElementById("inputText").addEventListener("keydown", function(event)
     convert();
   }
 });
+const textArea = document.getElementById('inputText');
+const copyButton = document.getElementById('copyButton');
 
+// Listen to typing inside the textarea
+textArea.addEventListener('input', function () {
+  if (textArea.value.trim().length > 0) {
+    copyButton.style.display = 'inline-block'; // show
+  } else {
+    copyButton.style.display = 'none'; // hide
+  }
+});
+
+// Also initially hide the button
+copyButton.style.display = 'none';
 // function formatTimeRange(text) {
 //   return text.replace(/(\d{1,4}[ap])-(\d{1,4}[ap])/gi, (_, start, end) => {
 //     const parseTime = (t) => {
