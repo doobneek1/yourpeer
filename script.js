@@ -49,21 +49,25 @@ function formatAge(text) {
     }
   });
 }
-function copyInput() {
-  const inputTextArea = document.getElementById('inputText');
+function copyTextArea() {
+  const textArea = document.getElementById('inputText');
   const copyButton = document.getElementById('copyButton');
 
-  if (!inputTextArea.value.trim()) return; // If input is empty, do nothing
+  textArea.select(); // select all the text inside
+  textArea.setSelectionRange(0, 99999); // for mobile devices
 
-  navigator.clipboard.writeText(inputTextArea.value).then(() => {
-    copyButton.innerText = 'Copied!';
-    setTimeout(() => {
-      copyButton.innerText = 'Copy Output';
-    }, 2000);
-  }).catch(err => {
-    console.error('Failed to copy: ', err);
-  });
+  navigator.clipboard.writeText(textArea.value)
+    .then(() => {
+      copyButton.innerText = 'Copied!';
+      setTimeout(() => {
+        copyButton.innerText = 'Copy Text';
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
 }
+
 
 
 function safeHyperlink(text) {
