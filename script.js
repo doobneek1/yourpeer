@@ -263,7 +263,7 @@
 // function addServicesInclude() {
 //   const textArea = document.getElementById('inputText');
 //   if (!textArea.value.startsWith('Services include:')) {
-//     textArea.value = `Services include:\n\n` + textArea.value.trim();
+//     textArea.value = `Services include:\n` + textArea.value.trim();
 //   }
 //   inputHistory.push(textArea.value); // 🆕 Save after insert
 //   updateCancelButton();              // 🆕 Update button
@@ -272,7 +272,7 @@
 
 // function appendMetrocards() {
 //   const textArea = document.getElementById('inputText');
-//   const statement = "\n\nIf you are a Medicaid or Medicare recipient, see if you qualify for a Round-Trip MetroCard upon your visit.";
+//   const statement = "\n• If you are a Medicaid or Medicare recipient, see if you qualify for a Round-Trip MetroCard upon your visit.";
 //   textArea.value = textArea.value.trim() + statement;
 //   inputHistory.push(textArea.value); // 🆕 Save after insert
 //   updateCancelButton();              // 🆕 Update button
