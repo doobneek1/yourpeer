@@ -206,6 +206,7 @@ function convert() {
 
   textArea.value = formatted;
   document.getElementById("output").innerHTML = formatted.replace(/•/g, '<br>•');
+  updateCancelButton()
 }
 function cancelChanges() {
   if (inputHistory.length > 1) {
@@ -223,6 +224,7 @@ function cancelChanges() {
   if (textArea.value.trim().length === 0) {
     copyButton.style.display = 'none';
   }
+  updateCancelButton()
 }
 
 
@@ -248,7 +250,8 @@ textArea.addEventListener('input', function () {
     copyButton.style.display = 'none'; 
   }
 
-  inputHistory.push(textArea.value); // 🆕 save every typing
+  inputHistory.push(textArea.value); 
+  updateCancelButton()
 });
 
 
@@ -260,16 +263,33 @@ function addServicesInclude() {
   if (!textArea.value.startsWith('Services include:')) {
     textArea.value = `Services include:\n\n` + textArea.value.trim();
   }
+  inputHistory.push(textArea.value); // 🆕 Save after insert
+  updateCancelButton();              // 🆕 Update button
+  textArea.focus(); 
 }
 
 function appendMetrocards() {
   const textArea = document.getElementById('inputText');
   const statement = "\n\n• Medicaid recipients may be eligible for discounted MetroCards.";
   textArea.value = textArea.value.trim() + statement;
+  inputHistory.push(textArea.value); // 🆕 Save after insert
+  updateCancelButton();              // 🆕 Update button
+  textArea.focus();
 }
 
 function appendRisks() {
   const textArea = document.getElementById('inputText');
   const statement = "\n\n• Non-citizens should seek legal advice before applying for benefits, as it may affect their immigration status.";
   textArea.value = textArea.value.trim() + statement;
+  inputHistory.push(textArea.value); // 🆕 Save after insert
+  updateCancelButton();              // 🆕 Update button
+  textArea.focus(); 
+}
+function updateCancelButton() {
+  const cancelButton = document.getElementById('cancelButton');
+  if (inputHistory.length > 1) {
+    cancelButton.style.display = 'inline-block'; // show
+  } else {
+    cancelButton.style.display = 'none'; // hide
+  }
 }
