@@ -3,20 +3,41 @@ function formatTimeRange(text) {
     const parseTime = (t) => {
       let period = t.includes('a') ? 'AM' : 'PM';
       t = t.replace(/[ap]/i, '');
-      let hours = parseInt(t.length > 2 ? t.slice(0, 2) : t[0]);
-      let minutes = parseInt(t.length > 2 ? t.slice(2) : 0);
+
+      let hours, minutes;
+
+      if (t.length <= 2) {
+        hours = parseInt(t);
+        minutes = 0;
+      } else {
+        if (t.length === 3) {
+          hours = parseInt(t[0]);
+          minutes = parseInt(t.slice(1));
+        } else {
+          hours = parseInt(t.slice(0, 2));
+          minutes = parseInt(t.slice(2));
+        }
+      }
+
+      if (isNaN(minutes)) minutes = 0;
+
       if (period === 'PM' && hours !== 12) hours += 12;
       if (period === 'AM' && hours === 12) hours = 0;
+
       return new Date(0, 0, 0, hours, minutes);
     };
+
     let startTime = parseTime(start);
     let endTime = parseTime(end);
+
     let startFormatted = startTime.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     let endFormatted = endTime.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
     let nextDay = endTime < startTime ? "⁺¹" : "";
     return `${startFormatted} — ${endFormatted}${nextDay}`;
   });
 }
+
 
 function formatAge(text) {
   return text.replace(/age\((.+?)\)/gi, (_, ages) => {
