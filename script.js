@@ -235,3 +235,21 @@ textArea.addEventListener('input', function () {
 // Also initially hide the button
 copyButton.style.display = 'none';
 
+function addServicesInclude() {
+  const textArea = document.getElementById('inputText');
+  if (!textArea.value.startsWith('Services include:')) {
+    textArea.value = `Services include:\n\n` + textArea.value.trim();
+  }
+}
+
+function appendMetrocards() {
+  const textArea = document.getElementById('inputText');
+  const statement = "\n\n• Medicaid recipients may be eligible for discounted MetroCards.";
+  textArea.value = textArea.value.trim() + statement;
+}
+
+function appendRisks() {
+  const textArea = document.getElementById('inputText');
+  const statement = "\n\n• Non-citizens should seek legal advice before applying for benefits, as it may affect their immigration status.";
+  textArea.value = textArea.value.trim() + statement;
+}
