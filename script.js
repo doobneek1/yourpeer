@@ -94,7 +94,7 @@ function processText(input) {
     line = line.trim();
 
     if (!line) {
-      // If line is completely empty, mark previousEmpty and skip
+      // Empty line detected
       previousEmpty = true;
       return;
     }
@@ -103,12 +103,16 @@ function processText(input) {
     const endsWithColon = line.endsWith(':');
     const alreadyBullet = line.startsWith('•') || line.startsWith('<br>') || line.startsWith('<br>&emsp;—');
 
-    // ➔ If there was an empty line before, add a <br> before this line
+    // ⬇️ Handle <br> for empty lines
     if (previousEmpty) {
-      line = '<br>' + line;
+      if (!(isFirstLine && line.startsWith('•'))) {
+        // ➡️ Only add <br> if not the very first line starting with a bullet
+        line = '<br>' + line;
+      }
       previousEmpty = false;
     }
 
+    // ⬇️ Handle bullets and dashes
     if (!alreadyBullet && !(isFirstLine && endsWithColon)) {
       if (line.startsWith('-')) {
         line = line.replace(/^-\s*/, '');
@@ -127,6 +131,7 @@ function processText(input) {
 
   return output.join('\n');
 }
+
 
 
 function convert() {
