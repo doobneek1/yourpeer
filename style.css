@@ -44,4 +44,5 @@ button {
   border-radius: 5px;
   min-height: 100px;
   border: 1px solid #ccc;
+  font-family: Inter, Helvetica Neue, Helvetica, sans-serif;
 }
