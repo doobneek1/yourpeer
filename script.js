@@ -272,7 +272,7 @@ function addServicesInclude() {
 
 function appendMetrocards() {
   const textArea = document.getElementById('inputText');
-  const statement = "\n\n• Medicaid recipients may be eligible for discounted MetroCards.";
+  const statement = "\n\nIf you are a Medicaid or Medicare recipient, see if you qualify for a Round-Trip MetroCard upon your visit.";
   textArea.value = textArea.value.trim() + statement;
   inputHistory.push(textArea.value); // 🆕 Save after insert
   updateCancelButton();              // 🆕 Update button
@@ -281,7 +281,23 @@ function appendMetrocards() {
 
 function appendRisks() {
   const textArea = document.getElementById('inputText');
-  const statement = "\n\n• Non-citizens should seek legal advice before applying for benefits, as it may affect their immigration status.";
+  const statement = "\n\nIf you are a non-citizen with a criminal record, please <a href="https://docs.google.com/document/d/e/2PACX-1vQ-cQznO83jSMzdwQoOOZMO22gOesH8YgiSo3GTzuRpHjMczqzzFz8JR23pM6_ZMG8khiGazWIcF-jA/pub" target="_blank" rel="noopener noreferrer">see if you might be at risk of deportation</a>.";
+  textArea.value = textArea.value.trim() + statement;
+  inputHistory.push(textArea.value); // 🆕 Save after insert
+  updateCancelButton();              // 🆕 Update button
+  textArea.focus(); 
+}
+function appendInelig() {
+  const textArea = document.getElementById('inputText');
+  const statement = "\n\nIf you are a non-citizen, please <a href="https://docs.google.com/document/d/e/2PACX-1vSRz4FT0ndCbqt63vO1Dq5Isj7FS4TZjw5NMc0gn8HCSg2gLx-MXD56X8Z56IDD5qbLX2_xzpwCqHaK/pub" target="_blank" rel="noopener noreferrer">see if you might qualify for this service</a>.";
+  textArea.value = textArea.value.trim() + statement;
+  inputHistory.push(textArea.value); // 🆕 Save after insert
+  updateCancelButton();              // 🆕 Update button
+  textArea.focus(); 
+}
+function appendSurviv() {
+  const textArea = document.getElementById('inputText');
+  const statement = "\n\nIf you are a non-citizen and survived a crime, please <a href="https://docs.google.com/document/d/e/2PACX-1vSRz4FT0ndCbqt63vO1Dq5Isj7FS4TZjw5NMc0gn8HCSg2gLx-MXD56X8Z56IDD5qbLX2_xzpwCqHaK/pub" target="_blank" rel="noopener noreferrer">see if you might qualify for some immigration benefits</a>.";
   textArea.value = textArea.value.trim() + statement;
   inputHistory.push(textArea.value); // 🆕 Save after insert
   updateCancelButton();              // 🆕 Update button
