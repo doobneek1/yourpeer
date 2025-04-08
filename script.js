@@ -131,6 +131,7 @@ function processText(input) {
 
 
 
+
 function convert() {
   const textArea = document.getElementById("inputText");
   const rawText = textArea.value.trim();
