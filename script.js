@@ -53,20 +53,40 @@ function copyTextArea() {
   const textArea = document.getElementById('inputText');
   const copyButton = document.getElementById('copyButton');
 
-  textArea.select(); // select all the text inside
+  // Select the text
+  textArea.select();
   textArea.setSelectionRange(0, 99999); // for mobile devices
 
-  navigator.clipboard.writeText(textArea.value)
-    .then(() => {
+  // Try clipboard API
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(textArea.value)
+      .then(() => {
+        copyButton.innerText = 'Copied!';
+        setTimeout(() => {
+          copyButton.innerText = 'Copy Text';
+        }, 2000);
+      })
+      .catch(err => {
+        console.error('Clipboard API failed, trying execCommand...', err);
+        fallbackCopy();
+      });
+  } else {
+    fallbackCopy();
+  }
+
+  function fallbackCopy() {
+    const successful = document.execCommand('copy');
+    if (successful) {
       copyButton.innerText = 'Copied!';
       setTimeout(() => {
         copyButton.innerText = 'Copy Text';
       }, 2000);
-    })
-    .catch(err => {
-      console.error('Failed to copy text: ', err);
-    });
+    } else {
+      console.error('Fallback copy failed.');
+    }
+  }
 }
+
 
 
 
