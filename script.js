@@ -223,7 +223,7 @@ function cancelChanges() {
 
   if (textArea.value.trim().length === 0) {
     copyButton.style.display = 'none';
-    document.getElementById('cancelButton').style.display = 'none';
+    
 
   }
   updateCancelButton()
