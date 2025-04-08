@@ -88,36 +88,32 @@ function processText(input) {
   let lines = input.split('\n');
   let output = [];
 
-  let previousEmpty = false;
+  let previousWasEmpty = false;
 
   lines.forEach((line, index) => {
     line = line.trim();
 
     if (!line) {
-      // Empty line detected
-      previousEmpty = true;
-      return;
+      previousWasEmpty = true;
+      return; // skip empty lines completely
     }
 
-    const isFirstLine = index === 0;
+    const isFirstLine = output.length === 0;
     const endsWithColon = line.endsWith(':');
-    const alreadyBullet = line.startsWith('•') || line.startsWith('<br>') || line.startsWith('<br>&emsp;—');
+    const alreadyFormatted = line.startsWith('•') || line.startsWith('<br>') || line.startsWith('<br>&emsp;—');
 
-    // ⬇️ Handle <br> for empty lines
-    if (previousEmpty) {
-      if (!(isFirstLine && line.startsWith('•'))) {
-        // ➡️ Only add <br> if not the very first line starting with a bullet
-        line = '<br>' + line;
-      }
-      previousEmpty = false;
+    // Insert <br> if there was an empty line before
+    if (previousWasEmpty && !isFirstLine) {
+      line = '<br>' + line;
     }
+    previousWasEmpty = false; // reset the flag
 
-    // ⬇️ Handle bullets and dashes
-    if (!alreadyBullet && !(isFirstLine && endsWithColon)) {
+    // Add bullets and dashes
+    if (!alreadyFormatted && !(isFirstLine && endsWithColon)) {
       if (line.startsWith('-')) {
         line = line.replace(/^-\s*/, '');
         line = `<br>&emsp;— ${line}`;
-      } else {
+      } else if (!line.startsWith('<br>')) {
         line = `• ${line}`;
       }
     }
