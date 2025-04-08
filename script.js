@@ -180,32 +180,6 @@ document.getElementById("inputText").addEventListener("keydown", function(event)
     convert();
   }
 });
-<script>
-  const banner = document.getElementById('instructions-banner');
-  let isDragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
-
-  banner.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    offsetX = e.clientX - banner.getBoundingClientRect().left;
-    offsetY = e.clientY - banner.getBoundingClientRect().top;
-    banner.style.cursor = 'move';
-  });
-
-  document.addEventListener('mouseup', () => {
-    isDragging = false;
-    banner.style.cursor = 'default';
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-      banner.style.top = `${e.clientY - offsetY}px`;
-      banner.style.left = `${e.clientX - offsetX}px`;
-      banner.style.right = 'auto'; /* Disable fixed right */
-    }
-  });
-</script>
 
 // function formatTimeRange(text) {
 //   return text.replace(/(\d{1,4}[ap])-(\d{1,4}[ap])/gi, (_, start, end) => {
