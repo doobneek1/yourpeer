@@ -52,6 +52,7 @@ function formatAge(text) {
 function copyTextArea() {
   const textArea = document.getElementById('inputText');
   const copyButton = document.getElementById('copyButton');
+  let inputHistory = []; // 🆕 store previous versions
 
   // Select the text
   textArea.select();
@@ -192,20 +193,35 @@ function processText(input) {
 
 
 
-
 function convert() {
   const textArea = document.getElementById("inputText");
   const rawText = textArea.value.trim();
 
   if (!rawText) return;
 
+  inputHistory.push(rawText); // 🆕 Save current text before formatting
+
   const formatted = processText(rawText);
 
-  // 🛠️ 1. KEEP the input text clean (no <br>)
   textArea.value = formatted;
-
-  // 🛠️ 2. ONLY modify the output rendering
   document.getElementById("output").innerHTML = formatted.replace(/•/g, '<br>•');
+}
+function cancelChanges() {
+  if (inputHistory.length > 1) {
+    inputHistory.pop(); // 🧹 Remove the latest change
+    textArea.value = inputHistory[inputHistory.length - 1]; // ⬅️ Show previous
+    document.getElementById('output').innerHTML = ''; // Optional: clear output
+  } else if (inputHistory.length === 1) {
+    textArea.value = inputHistory[0];
+    document.getElementById('output').innerHTML = '';
+  } else {
+    textArea.value = '';
+    document.getElementById('output').innerHTML = '';
+  }
+
+  if (textArea.value.trim().length === 0) {
+    copyButton.style.display = 'none';
+  }
 }
 
 
@@ -226,11 +242,14 @@ const copyButton = document.getElementById('copyButton');
 // Listen to typing inside the textarea
 textArea.addEventListener('input', function () {
   if (textArea.value.trim().length > 0) {
-    copyButton.style.display = 'inline-block'; // show
+    copyButton.style.display = 'inline-block'; 
   } else {
-    copyButton.style.display = 'none'; // hide
+    copyButton.style.display = 'none'; 
   }
+
+  inputHistory.push(textArea.value); // 🆕 save every typing
 });
+
 
 // Also initially hide the button
 copyButton.style.display = 'none';
