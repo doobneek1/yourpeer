@@ -49,13 +49,13 @@ function formatAge(text) {
     }
   });
 }
-function copyOutput() {
-  const outputDiv = document.getElementById('output');
+function copyInput() {
+  const inputTextArea = document.getElementById('inputText');
   const copyButton = document.getElementById('copyButton');
-  
-  if (!outputDiv.innerText.trim()) return; // If output is empty, do nothing
-  
-  navigator.clipboard.writeText(outputDiv.innerText).then(() => {
+
+  if (!inputTextArea.value.trim()) return; // If input is empty, do nothing
+
+  navigator.clipboard.writeText(inputTextArea.value).then(() => {
     copyButton.innerText = 'Copied!';
     setTimeout(() => {
       copyButton.innerText = 'Copy Output';
@@ -64,6 +64,7 @@ function copyOutput() {
     console.error('Failed to copy: ', err);
   });
 }
+
 
 function safeHyperlink(text) {
   const parts = text.split(/(<a .*?>.*?<\/a>)/g);
