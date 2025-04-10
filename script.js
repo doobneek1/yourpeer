@@ -383,7 +383,11 @@ function safeHyperlink(text) {
       });
 
       part = part.replace(/(https?:\/\/[^\s<>\|]+)\|\(([^)]+)\)/g, (m, url, label) => {
+        if (url.includes('yourpeer.nyc')) {
+          return `<a href="${url}">${label}</a>`;
+        } else {
         return `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+        }
       });
 
       part = part.replace(/(?<!href="mailto:)([\w\.-]+@[\w\.-]+\.\w+)/g, (m, email) => {
@@ -396,9 +400,13 @@ function safeHyperlink(text) {
         return ext ? `<a href="tel:${clean},${ext}">${formatted} x${ext}</a>` : `<a href="tel:${clean}">${formatted}</a>`;
       });
 
-      part = part.replace(/(?<!href=")(https?:\/\/[^\s<>\|)]+)/g, (m, url) => {
+      part = part.replace(/(?<!href=")(https?:\/\/[^\s<>\|)]+)/g, (url) => {
         let display = url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${display}</a>`;
+        if (url.includes('yourpeer.nyc')) {
+          return `<a href="${url}">${display}</a>`;
+        } else {
+          return `<a href="${url}" target="_blank" rel="noopener noreferrer">${display}</a>`;
+        }
       });
 
       output.push(part);
