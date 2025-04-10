@@ -1,59 +1,92 @@
-<!-- email.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Email Composer</title>
-  <link rel="stylesheet" href="email.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    input, select {
+      margin: 5px 0;
+      padding: 5px;
+      width: 100%;
+    }
+    .button {
+      background-color: black;
+      color: white;
+      padding: 10px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .readonly {
+      background-color: #f2f2f2;
+    }
+    .link-container input:disabled {
+      background-color: #ddd;
+      cursor: not-allowed;
+    }
+    .copy-button {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Email Composer</h1>
 
-    <label for="yourName">Your Name:</label>
+  <h2>Email Generator</h2>
+
+  <label>Your Name:
     <select id="yourName">
       <option value="">Select your name</option>
-      <option value="Marisa">Marisa</option>
-      <option value="Adam">Adam</option>
-      <option value="John">John</option>
+      <option>Marisa</option>
+      <option>Adam</option>
+      <option>Jay</option>
     </select>
+  </label>
 
-    <label for="phone">Phone Number:</label>
-    <select id="phone">
-      <option value="">Select your phone</option>
-      <option value="(123) 456-7890">(123) 456-7890</option>
-      <option value="(987) 654-3210">(987) 654-3210</option>
-    </select>
-
-    <label for="orgName">Organization Name:</label>
-    <input list="orgSuggestions" id="orgName" placeholder="Start typing organization...">
-    <datalist id="orgSuggestions">
-      <option value="Coalition for the Homeless">
-      <option value="Safe Horizon">
+  <label>Organization Name:
+    <input type="text" id="orgName" placeholder="e.g., BronxWorks" list="orgList" autocomplete="off">
+    <datalist id="orgList">
+      <option value="BronxWorks">
       <option value="Ali Forney Center">
-      <option value="Covenant House New York">
+      <option value="Safe Horizon">
     </datalist>
+  </label>
 
-    <div id="linksSection">
-      <label>Organization Links:</label>
-      <div id="linksContainer">
-        <input type="text" class="orgLink" placeholder="Paste a link..." oninput="addNewLinkField()">
-      </div>
-      <button id="notOnYourPeerButton" onclick="markNotOnYourPeer()">Not on YourPeer Yet</button>
-    </div>
+  <label>Phone Number:
+    <select id="phone">
+      <option value="">Select your number</option>
+      <option value="(212) 555-1234">(212) 555-1234</option>
+      <option value="(646) 333-7777">(646) 333-7777</option>
+      <option value="add-new">Add new number</option>
+    </select>
+    <input type="text" id="newPhone" class="hidden" placeholder="Enter new phone number">
+  </label>
 
-    <button onclick="generateEmail()">Generate Email</button>
-    <button id="returnFormatter" onclick="location.href='formatter.html'">Return to Formatter</button>
+  <label>
+    <input type="checkbox" id="notOnYP"> Not on YourPeer yet?
+  </label>
 
-    <h2>Subject:</h2>
-    <div id="subjectOutput" class="output"></div>
-    <button onclick="copySubject()">Copy Subject</button>
-
-    <h2>Email Body:</h2>
-    <div id="bodyOutput" class="output"></div>
-    <button onclick="copyBody()">Copy Body</button>
+  <div id="linksContainer" class="link-container">
+    <input type="text" class="orgLink" placeholder="Paste link..." oninput="addNewLinkField()">
   </div>
+
+  <button class="button" onclick="generateEmail()">Generate Email</button>
+  <button class="button" onclick="window.location.href='index.html'">Return to Formatter</button>
+
+  <h3>Subject:</h3>
+  <div id="subjectOutput" contenteditable="true" class="readonly"></div>
+  <button onclick="copyText('subjectOutput')">Copy Subject</button>
+
+  <h3>Email Body:</h3>
+  <div id="bodyOutput" contenteditable="true" class="readonly" style="white-space: pre-wrap;"></div>
+  <button onclick="copyText('bodyOutput')">Copy Body</button>
 
   <script src="email.js"></script>
 </body>
