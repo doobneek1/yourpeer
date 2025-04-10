@@ -69,9 +69,11 @@
     <input type="text" id="newPhone" class="hidden" placeholder="Enter new phone number">
   </label>
 
-  <label>
-    <input type="checkbox" id="notOnYP"> Not on YourPeer yet?
-  </label>
+  <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+    <input type="checkbox" id="notOnYP">
+    <label for="notOnYP">Not on YourPeer yet?</label>
+  </div>
+
 
   <div id="linksContainer" class="link-container">
     <input type="text" class="orgLink" placeholder="Paste link..." oninput="addNewLinkField()">
