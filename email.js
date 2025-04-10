@@ -2,7 +2,7 @@ function addNewLinkField() {
   const container = document.getElementById('linksContainer');
   const inputs = container.querySelectorAll('input.orgLink');
   const lastInput = inputs[inputs.length - 1];
-  if (lastInput.value.trim() !== '') {
+  if (lastInput.value.trim() !== '' && !lastInput.disabled) {
     const newInput = document.createElement('input');
     newInput.type = 'text';
     newInput.className = 'orgLink';
@@ -15,7 +15,14 @@ function addNewLinkField() {
 document.getElementById('notOnYP').addEventListener('change', function () {
   const disabled = this.checked;
   const inputs = document.querySelectorAll('.orgLink');
-  inputs.forEach(input => input.disabled = disabled);
+  inputs.forEach(input => {
+    input.disabled = disabled;
+    if (disabled) {
+      input.classList.add('readonly');
+    } else {
+      input.classList.remove('readonly');
+    }
+  });
 });
 
 document.getElementById('phone').addEventListener('change', function () {
@@ -54,14 +61,7 @@ function generateEmail() {
     .map(input => input.value.trim())
     .filter(link => link !== '');
 
-  const linksHTML = links.map(link => {
-    if (link.includes('yourpeer.nyc')) {
-      return `<a href="${link}">${link}</a>`;
-    } else {
-      return `<a href="${link}" target="_blank" rel="noopener noreferrer">${link}</a>`;
-    }
-  }).join(', ');
-
+  // 🛠️ Updated Validation:
   if (!yourName || !orgName || !phone || (!notOnYP && links.length === 0)) {
     alert('Please complete all required fields.');
     return;
@@ -82,6 +82,14 @@ Would you be open to a quick call? My number is <a href="tel:${phone.replace(/\D
 Warmly,
 ${yourName}`;
   } else {
+    const linksHTML = links.map(link => {
+      if (link.includes('yourpeer.nyc')) {
+        return `<a href="${link}">${link}</a>`;
+      } else {
+        return `<a href="${link}" target="_blank" rel="noopener noreferrer">${link}</a>`;
+      }
+    }).join(', ');
+
     body = `Hello ${orgName} Team,
 
 This is ${yourName} here over at Streetlives, a technology non-profit publishing the map of NYC with social services on it at yourpeer.nyc. We have an international team of diverse genders, races, and sexual orientations. We serve the community by providing accurate information on social services across the city.
