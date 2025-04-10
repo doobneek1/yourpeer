@@ -127,3 +127,8 @@ button {
   background: white;
   color: black;
 }
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
