@@ -84,7 +84,7 @@ ${yourName}`;
   } else {
     const linksHTML = links.map(link => {
       if (link.includes('yourpeer.nyc')) {
-        return `<a href="${link}">${link}</a>`;
+        return `<a href="${link}">${link.replace(/^https?:\/\//, '')}</a>`;
       } else {
         return `<a href="${link}" target="_blank" rel="noopener noreferrer">${link}</a>`;
       }
@@ -102,5 +102,9 @@ I am open to setting up a call and happy to make a site visit. My phone number i
   }
 
   document.getElementById('subjectOutput').innerText = subject;
-  document.getElementById('bodyOutput').innerHTML = body;
+  body = body.replace(/Streetlives/g, 'Streetlives (https://streetlives.nyc)');
+  body = body.replace(/yourpeer.nyc/g, 'yourpeer.nyc (https://yourpeer.nyc)');
+
+  document.getElementById('bodyOutput').innerText = body;
+
 }
