@@ -66,9 +66,20 @@ function generateEmail() {
     .map(input => input.value.trim())
     .filter(link => link !== '');
 
+  // 🚨 Validation before generation
   if (!yourName || !orgName || !phone || (!notOnYP && links.length === 0)) {
     alert('Please complete all required fields.');
     return;
+  }
+
+  const urlPattern = /^(https?:\/\/)?[\w.-]+\.[a-z]{2,}.*$/i;
+  if (!notOnYP) {
+    for (let link of links) {
+      if (!urlPattern.test(link)) {
+        alert(`Invalid link detected: "${link}". Please make sure links are valid (e.g., start with http(s)://).`);
+        return;
+      }
+    }
   }
 
   const subject = `Question about services at ${orgName}`;
@@ -87,7 +98,10 @@ Warmly,<br>
 ${yourName}`;
   } else {
     const linksFormatted = links.map(link => {
-      const display = link.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+      if (!/^https?:\/\//i.test(link)) {
+        link = 'https://' + link; // 🔥 Auto-add https:// if missing
+      }
+      const display = link.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''); // Remove https:// and trailing slash
       return `<a href="${link}" target="_blank" rel="noopener noreferrer">${display}</a>`;
     }).join(', ');
 
@@ -102,6 +116,8 @@ I am also including our flyer for you to share with your participants. We have o
 I am open to setting up a call and happy to make a site visit. My phone number is <a href="tel:${phone.replace(/\D/g, '')}">${formatPhone(phone)}</a>.`;
   }
 
-  document.getElementById('subjectOutput').value = subject;
-  document.getElementById('bodyOutput').innerHTML = body;  // ⚡ Use .innerHTML to preserve rich formatting
+  // ✅ Final Output
+  document.getElementById('subjectOutput').innerText = subject;
+  document.getElementById('bodyOutput').innerHTML = body; // Keep hyperlinks working
 }
+
