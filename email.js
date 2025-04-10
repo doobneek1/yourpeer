@@ -1,42 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Email Composer</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+function addNewLinkField() {
+  const container = document.getElementById('linksContainer');
+  const inputs = container.querySelectorAll('input');
+  const lastInput = inputs[inputs.length - 1];
 
-<body>
+  if (lastInput.value.trim() !== '') {
+    const newInput = document.createElement('input');
+    newInput.type = 'text';
+    newInput.className = 'orgLink';
+    newInput.placeholder = 'Paste another link...';
+    newInput.oninput = addNewLinkField;
+    container.appendChild(newInput);
+  }
+}
 
-<h1>Compose Email</h1>
+function autoLink(text) {
+  text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+  text = text.replace(/(\(\d{3}\)\s*\d{3}-\d{4})/g, '<a href="tel:$1">$1</a>');
+  return text;
+}
 
-<div>
-  <input type="text" id="yourName" placeholder="Your Name">
-  <input type="text" id="orgName" placeholder="Organization Name">
+function formatPhone(phone) {
+  const clean = phone.replace(/\D/g, '');
+  if (clean.length === 10) {
+    return `(${clean.slice(0, 3)}) ${clean.slice(3, 6)}-${clean.slice(6)}`;
+  } else {
+    return phone;
+  }
+}
 
-  <div id="linksContainer">
-    <input type="text" class="orgLink" placeholder="Paste a link..." oninput="addNewLinkField()">
-  </div>
+function generateEmail() {
+  const yourName = document.getElementById('yourName').value.trim();
+  const orgName = document.getElementById('orgName').value.trim();
+  const linkInputs = document.querySelectorAll('.orgLink');
+  const links = Array.from(linkInputs)
+    .map(input => input.value.trim())
+    .filter(link => link !== '');
 
-  <input type="text" id="phone" placeholder="Your Phone Number">
-  
-  <button onclick="generateEmail()">Generate Email</button>
-</div>
+  const phone = document.getElementById('phone').value.trim();
 
-<hr>
+  if (!yourName || !orgName || links.length === 0 || !phone) {
+    alert('Please fill in all fields.');
+    return;
+  }
 
-<div>
-  <h2>Subject 
-    <button class="copy-btn" onclick="copySubject()">Copy</button>
-  </h2>
-  <div id="subjectOutput" style="border:1px solid #ccc; padding:10px;"></div>
+  const linksHTML = links.map(link => {
+    if (link.includes('yourpeer.nyc')) {
+      return `<a href="${link}">${link}</a>`;
+    } else {
+      return `<a href="${link}" target="_blank" rel="noopener noreferrer">${link}</a>`;
+    }
+  }).join(', ');
 
-  <h2>Body 
-    <button class="copy-btn" onclick="copyBody()">Copy</button>
-  </h2>
-  <div id="bodyOutput" style="border:1px solid #ccc; padding:10px; white-space:pre-wrap;"></div>
-</div>
+  const phoneFormatted = formatPhone(phone);
+  const phoneHTML = `<a href="tel:${phone.replace(/\D/g, '')}">${phoneFormatted}</a>`;
 
-<script src="email.js"></script> <!-- external JS file -->
-</body>
-</html>
+  const subject = `Question about services at ${orgName}`;
+
+  const body = `Hello ${orgName} Team,
+
+This is ${yourName} here over at Streetlives, a technology non-profit publishing the map of NYC with social services on it at yourpeer.nyc. We have an international team of diverse genders, races, and sexual orientations. We serve the community by providing accurate information on social services across the city.
+
+I want to add ${orgName} to our map and share it with the community. I am adding the locations with a reception where potential clients can walk in and inquire about services or make an appointment, or at least services that allow clients to enroll without being referred. Please view my publication about your location at ${linksHTML} and let me know if it looks accurate.
+
+I am also including our flyer for you to share with your participants. We have over 2,400+ social services organizations published across the NYC Metro Area, professionally curated foreign language versions, and content regularly peer-reviewed and updated by lived experts of homelessness, legal, and immigration involvement.
+
+I am open to setting up a call and happy to make a site visit. My phone number is ${phoneHTML}.
+`;
+
+  document.getElementById('subjectOutput').innerText = subject;
+  document.getElementById('bodyOutput').innerHTML = autoLink(body);
+}
+
+function copySubject() {
+  const subjectText = document.getElementById('subjectOutput').innerText;
+  navigator.clipboard.writeText(subjectText).then(() => {
+    alert('Subject copied!');
+  });
+}
+
+function copyBody() {
+  const bodyHTML = document.getElementById('bodyOutput').innerHTML;
+  const tempEl = document.createElement('textarea');
+  tempEl.value = bodyHTML.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, ''); // Remove HTML tags
+  document.body.appendChild(tempEl);
+  tempEl.select();
+  document.execCommand('copy');
+  document.body.removeChild(tempEl);
+  alert('Body copied!');
+}
