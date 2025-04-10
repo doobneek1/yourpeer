@@ -92,7 +92,7 @@ This is ${yourName} from <a href="https://streetlives.nyc" target="_blank" rel="
 
 We’re focusing on walk-in accessible services or those that allow direct enrollment without a referral.<br><br>
 
-Would you be open to a quick call? My number is <a href="tel:${phone.replace(/\D/g, '')}">${formatPhone(phone)}</a>. I’m happy to visit in person if helpful.;
+Would you be open to a quick call? My number is <a href="tel:${phone.replace(/\D/g, '')}">${formatPhone(phone)}</a>. I’m happy to visit in person if helpful.`;
   } else {
     const linksFormatted = links.map(link => {
       if (!/^https?:\/\//i.test(link)) {
