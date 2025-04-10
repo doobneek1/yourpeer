@@ -1,0 +1,21 @@
+<form id="emailForm">
+  <label>Your Name: <input type="text" id="yourName" required></label><br><br>
+  <label>Organization Name: <input type="text" id="orgName" required></label><br><br>
+  <label>Organization Link: <input type="url" id="orgLink" required></label><br><br>
+  <label>Phone Number: <input type="tel" id="phoneNumber" required></label><br><br>
+  <label>Email Template:
+    <select id="templateType">
+      <option value="outreach">Outreach</option>
+      <option value="followup">Follow-Up</option>
+      <option value="update">Update</option>
+    </select>
+  </label><br><br>
+
+  <button type="button" onclick="generateEmail()">Generate Email</button>
+</form>
+
+<h2>Generated Email</h2>
+<div id="emailOutput"></div>
+
+<br><br>
+<a href="index.html"><button>Back to Formatter</button></a>
