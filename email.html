@@ -1,43 +1,60 @@
+<!-- email.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Email Composer</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="email.css">
 </head>
-
 <body>
+  <div class="container">
+    <h1>Email Composer</h1>
 
-<h1>Compose Email</h1>
+    <label for="yourName">Your Name:</label>
+    <select id="yourName">
+      <option value="">Select your name</option>
+      <option value="Marisa">Marisa</option>
+      <option value="Adam">Adam</option>
+      <option value="John">John</option>
+    </select>
 
-<div>
-  <input type="text" id="yourName" placeholder="Your Name">
-  <input type="text" id="orgName" placeholder="Organization Name">
+    <label for="phone">Phone Number:</label>
+    <select id="phone">
+      <option value="">Select your phone</option>
+      <option value="(123) 456-7890">(123) 456-7890</option>
+      <option value="(987) 654-3210">(987) 654-3210</option>
+    </select>
 
-  <div id="linksContainer">
-    <input type="text" class="orgLink" placeholder="Paste a link..." oninput="addNewLinkField()">
+    <label for="orgName">Organization Name:</label>
+    <input list="orgSuggestions" id="orgName" placeholder="Start typing organization...">
+    <datalist id="orgSuggestions">
+      <option value="Coalition for the Homeless">
+      <option value="Safe Horizon">
+      <option value="Ali Forney Center">
+      <option value="Covenant House New York">
+    </datalist>
+
+    <div id="linksSection">
+      <label>Organization Links:</label>
+      <div id="linksContainer">
+        <input type="text" class="orgLink" placeholder="Paste a link..." oninput="addNewLinkField()">
+      </div>
+      <button id="notOnYourPeerButton" onclick="markNotOnYourPeer()">Not on YourPeer Yet</button>
+    </div>
+
+    <button onclick="generateEmail()">Generate Email</button>
+    <button id="returnFormatter" onclick="location.href='formatter.html'">Return to Formatter</button>
+
+    <h2>Subject:</h2>
+    <div id="subjectOutput" class="output"></div>
+    <button onclick="copySubject()">Copy Subject</button>
+
+    <h2>Email Body:</h2>
+    <div id="bodyOutput" class="output"></div>
+    <button onclick="copyBody()">Copy Body</button>
   </div>
 
-  <input type="text" id="phone" placeholder="Your Phone Number">
-  
-  <button onclick="generateEmail()">Generate Email</button>
-</div>
-
-<hr>
-
-<div>
-  <h2>Subject 
-    <button class="copy-btn" onclick="copyRichText('subjectOutput')">Copy Subject</button>
-
-  </h2>
-  <div id="subjectOutput" style="border:1px solid #ccc; padding:10px;"></div>
-
-  <h2>Body 
-    <button class="copy-btn" onclick="copyRichText('bodyOutput')">Copy Body</button>
-  </h2>
-  <div id="bodyOutput" style="border:1px solid #ccc; padding:10px; white-space:pre-wrap;"></div>
-</div>
-
-<script src="email.js"></script> <!-- external JS file -->
+  <script src="email.js"></script>
 </body>
 </html>
