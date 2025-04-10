@@ -104,3 +104,20 @@ button {
 .email-button:hover {
   background-color: #333; /* dark gray on hover */
 }
+/* === Email Composer Extra Styles === */
+.copy-btn {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background: #000; /* Black button */
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  background: #444;
+}
+
+#linksContainer input {
+  margin-bottom: 5px;
+}
