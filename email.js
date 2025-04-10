@@ -1,8 +1,17 @@
+function autoLink(text) {
+  text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+  text = text.replace(/(\(\d{3}\)\s*\d{3}-\d{4})/g, '<a href="tel:$1">$1</a>');
+  return text;
+}
+
 function generateEmail() {
   const yourName = document.getElementById('yourName').value.trim();
   const orgName = document.getElementById('orgName').value.trim();
   const orgLink = document.getElementById('orgLink').value.trim();
   const phone = document.getElementById('phone').value.trim();
+  const orgLinkHTML = `<a href="${orgLink}" target="_blank" rel="noopener noreferrer">${orgLink}</a>`;
+  const phoneHTML = `<a href="tel:${phone.replace(/\D/g, '')}">${phone}</a>`;
+
 
   if (!yourName || !orgName || !orgLink || !phone) {
     alert('Please fill in all fields.');
