@@ -1,21 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Compose Email</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Compose Your Email</h1>
+
 <form id="emailForm">
-  <label>Your Name: <input type="text" id="yourName" required></label><br><br>
-  <label>Organization Name: <input type="text" id="orgName" required></label><br><br>
-  <label>Organization Link: <input type="url" id="orgLink" required></label><br><br>
-  <label>Phone Number: <input type="tel" id="phoneNumber" required></label><br><br>
-  <label>Email Template:
-    <select id="templateType">
-      <option value="outreach">Outreach</option>
-      <option value="followup">Follow-Up</option>
-      <option value="update">Update</option>
-    </select>
-  </label><br><br>
+  <label>Your Name:</label><br>
+  <input type="text" id="yourName"><br><br>
+
+  <label>Organization Name:</label><br>
+  <input type="text" id="orgName"><br><br>
+
+  <label>Organization Link:</label><br>
+  <input type="text" id="orgLink"><br><br>
+
+  <label>Phone Number:</label><br>
+  <input type="text" id="phone"><br><br>
 
   <button type="button" onclick="generateEmail()">Generate Email</button>
+  <button type="button" class="email-button" onclick="window.location.href='index.html'">Back to Text Formatter</button>
 </form>
 
-<h2>Generated Email</h2>
-<div id="emailOutput"></div>
+<h2>Generated Subject:</h2>
+<div id="subjectOutput" style="white-space: pre-wrap; background:#f0f0f0; padding:10px;"></div>
 
-<br><br>
-<a href="index.html"><button>Back to Formatter</button></a>
+<h2>Generated Body:</h2>
+<div id="bodyOutput" style="white-space: pre-wrap; background:#f0f0f0; padding:10px;"></div>
+
+<script src="email.js"></script>
+
+</body>
+</html>
