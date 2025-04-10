@@ -78,13 +78,18 @@ function copySubject() {
   });
 }
 
-function copyBody() {
-  const bodyHTML = document.getElementById('bodyOutput').innerHTML;
-  const tempEl = document.createElement('textarea');
-  tempEl.value = bodyHTML.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, ''); // Remove HTML tags
-  document.body.appendChild(tempEl);
-  tempEl.select();
-  document.execCommand('copy');
-  document.body.removeChild(tempEl);
-  alert('Body copied!');
+function copyRichText(elementId) {
+  const el = document.getElementById(elementId);
+
+  navigator.clipboard.write([
+    new ClipboardItem({
+      "text/html": new Blob([el.innerHTML], { type: "text/html" }),
+      "text/plain": new Blob([el.innerText], { type: "text/plain" }),
+    })
+  ]).then(() => {
+    console.log('Copied with formatting!');
+  }).catch(err => {
+    console.error('Failed to copy: ', err);
+  });
 }
+
