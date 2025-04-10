@@ -44,7 +44,12 @@ function copyText(elementId) {
   const sel = window.getSelection();
   sel.removeAllRanges();
   sel.addRange(range);
-  document.execCommand('copy');
+
+  try {
+    document.execCommand('copy');
+  } catch (err) {
+    console.error('Copy failed:', err);
+  }
 }
 
 function generateEmail() {
