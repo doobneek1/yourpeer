@@ -107,8 +107,13 @@ I am open to setting up a call and happy to make a site visit. My phone number i
   }
 
   document.getElementById('subjectOutput').innerText = subject;
+
+// Remove <a> tags before final paste if any were added
+  body = body.replace(/<a [^>]+href="([^"]+)"[^>]*>(.*?)<\/a>/g, '$2 ($1)');
+
+// Replace Streetlives and yourpeer.nyc with clickable text
   body = body.replace(/Streetlives/g, 'Streetlives (https://streetlives.nyc)');
-  body = body.replace(/yourpeer.nyc/g, 'yourpeer.nyc (https://yourpeer.nyc)');
+  body = body.replace(/yourpeer\.nyc/g, 'yourpeer.nyc (https://yourpeer.nyc)');
 
   document.getElementById('bodyOutput').innerText = body;
 
