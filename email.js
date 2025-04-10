@@ -27,7 +27,6 @@ I am open to setting up a call and happy to make a site visit. My phone number i
 }
 
 function formatPhone(phone) {
-  // Remove everything except digits
   const clean = phone.replace(/\D/g, '');
   if (clean.length === 10) {
     return `(${clean.slice(0, 3)}) ${clean.slice(3, 6)}-${clean.slice(6)}`;
