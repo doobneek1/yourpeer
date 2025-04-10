@@ -89,7 +89,7 @@ ${yourName}`;
   } else {
     const linksHTML = links.map(link => {
       if (link.includes('yourpeer.nyc')) {
-        return `<a href="${link}">${link.replace(/^https?:\/\//, '')}</a>`;
+        return `<a href="${link}">${link}</a>`;
       } else {
         return `<a href="${link}" target="_blank" rel="noopener noreferrer">${link}</a>`;
       }
