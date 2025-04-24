@@ -103,13 +103,9 @@ Would you be open to a quick call? My number is <a href="tel:${phone.replace(/\D
     }).join(', ');
 
     body = `Hello ${orgName} Team,<br><br>
-
 This is ${yourName} here over at <a href="https://streetlives.nyc" target="_blank" rel="noopener noreferrer">Streetlives</a>, a technology non-profit publishing the map of NYC with social services on it at <a href="https://yourpeer.nyc" target="_blank" rel="noopener noreferrer">yourpeer.nyc</a>. We have an international team of diverse genders, races, and sexual orientations. We serve the community by providing accurate information on social services across the city.<br><br>
-
 I want to add ${orgName} to our map and share it with the community. I am adding the locations with a reception where potential clients can walk in and inquire about services or make an appointment, or at least services that allow clients to enroll without being referred. Please view my publication about your location at ${linksFormatted} and let me know if it looks accurate.<br><br>
-
 I am also including our flyer for you to share with your participants. We have over 2,400+ social services organizations published across the NYC Metro Area, professionally curated foreign language versions, and content regularly peer-reviewed and updated by lived experts of homelessness, legal, and immigration involvement.<br><br>
-
 I am open to setting up a call and happy to make a site visit. My phone number is <a href="tel:${phone.replace(/\D/g, '')}">${formatPhone(phone)}</a>.`;
   }
 
